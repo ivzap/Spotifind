@@ -48,23 +48,12 @@ async function getGenres(payload = defaultPayload){
   return genres; // Note: must use await on function call 
 }
 
-async function getUsersTopTracks(user, payload = defaultPayload){
-  let topTracks = [];
-  let url = `https://api.spotify.com/v1/${user}/top/tracks`
-  let response = await spotifyApiRequest(url, payload);
-  console.log(response);
-  for(const genre of response){
-    genres.push(genre);
-  }
-  return topTracks; // Note: must use await on function call(endpoint error) 
-}
-
 let playlists = await getUserPlaylists('ivzap');
 let tracks = await getPlaylistTracks("5izwgjzsN7DkzIGLKgsaHb");
 let genres = await getGenres();
-console.log(tracks);
-console.log(playlists);
-console.log(genres);
+// console.log(tracks);
+// console.log(playlists);
+// console.log(genres);
 //let newToken = await refreshToken();
 //console.log(newToken);
 
