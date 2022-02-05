@@ -1,15 +1,15 @@
 import fetch from 'node-fetch';
-import getToken from './secrets.mjs';
-let oAuth = getToken();
+import refreshToken from './secrets.mjs';
+
+let oAuth = await refreshToken();
 let defaultPayload = {
   method: "GET",
   headers: {
-    "Content-Type": "application/json",
     "Authorization": "Bearer "+ oAuth
   }
 };
 
-async function spotifyApiRequest(url, payload){
+export default async function spotifyApiRequest(url, payload){
   let response = await fetch(url, payload);
   response = await response.json();
   return response;  // Note: must use await on function call 
@@ -50,15 +50,23 @@ async function getGenres(payload = defaultPayload){
 
 async function getUsersTopTracks(user, payload = defaultPayload){
   let topTracks = [];
-  let url = "https://api.spotify.com/v1/ivzap/top/tracks"
+  let url = `https://api.spotify.com/v1/${user}/top/tracks`
   let response = await spotifyApiRequest(url, payload);
-  response = response;
   console.log(response);
   for(const genre of response){
     genres.push(genre);
   }
   return topTracks; // Note: must use await on function call(endpoint error) 
 }
+
+let playlists = await getUserPlaylists('ivzap');
+let tracks = await getPlaylistTracks("5izwgjzsN7DkzIGLKgsaHb");
+let genres = await getGenres();
+console.log(tracks);
+console.log(playlists);
+console.log(genres);
+//let newToken = await refreshToken();
+//console.log(newToken);
 
 
 
